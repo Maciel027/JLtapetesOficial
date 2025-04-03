@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import sqlite3, os
+import os
+
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
@@ -68,5 +70,5 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
-
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
