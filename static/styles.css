@@ -1,0 +1,296 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #333;
+}
+/* (continuação do CSS do usuário resumido aqui) */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #f0f0f0;
+}
+
+header .logo h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #003366;
+}
+
+header nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #003366;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #87CEFA;
+}
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    background-image: linear-gradient(to bottom, #E0FFFF, #ADD8E6);
+    text-align: center;
+    color: #003366;
+    padding: 20px;
+}
+
+.banner h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.banner p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.banner button {
+    background-color: #FF69B4;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.banner button:hover {
+    background-color: #FF1493;
+}
+
+.produtos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    text-align: center;
+}
+
+.produtos h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: #003366;
+}
+
+.produtos-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.produto-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 300px;
+    margin: 10px;
+}
+
+.produto-card:hover {
+    transform: translateY(-10px);
+}
+
+.produto-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.produto-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #003366;
+}
+
+.produto-card p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.produto-card button {
+    background-color: #FF69B4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.produto-card button:hover {
+    background-color: #FF1493;
+}
+
+.contato {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    text-align: center;
+    background-color: #f8f8f8;
+}
+
+.contato h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #003366;
+}
+
+.contato p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+#formulario-contato {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-grupo label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #003366;
+}
+
+.form-grupo input,
+.form-grupo textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-grupo input:focus,
+.form-grupo textarea:focus {
+    outline: none;
+    border-color: #87CEFA;
+}
+
+.form-grupo textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+#formulario-contato button {
+    background-color: #FF69B4;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+}
+
+#formulario-contato button:hover {
+    background-color: #FF1493;
+}
+
+footer {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    color: #003366;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    header nav ul li {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .banner h2 {
+        font-size: 28px;
+    }
+
+    .banner p {
+        font-size: 16px;
+    }
+
+    .produtos-lista {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .produto-card {
+        width: 90%;
+    }
+
+    #formulario-contato {
+        max-width: 100%;
+        padding: 15px;
+    }
+}
+
+footer {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    color: #003366;
+    font-size: 14px;
+}

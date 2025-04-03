@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Admin - JL Tapetes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Painel do Administrador</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Ver Site</a></li>
+                <li><a href="{{ url_for('logout') }}">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="contato">
+        <h2>Cadastrar Novo Produto</h2>
+        <form action="{{ url_for('cadastrar') }}" method="POST" enctype="multipart/form-data" id="formulario-contato">
+            <div class="form-grupo">
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" required>
+            </div>
+            <div class="form-grupo">
+                <label for="preco">Preço:</label>
+                <input type="number" name="preco" step="0.01" required>
+            </div>
+            <div class="form-grupo">
+                <label for="imagem">Imagem:</label>
+                <input type="file" name="imagem" accept="image/*" required>
+            </div>
+            <button type="submit">Cadastrar Produto</button>
+        </form>
+    </section>
+</body>
+</html>

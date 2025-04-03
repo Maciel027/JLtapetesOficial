@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - JL Tapetes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>JL Tapetes - Admin</h1>
+        </div>
+    </header>
+    <section class="contato">
+        <h2>Login do Administrador</h2>
+        <form method="POST" id="formulario-contato">
+            <div class="form-grupo">
+                <label for="usuario">Usuário:</label>
+                <input type="text" name="usuario" required>
+            </div>
+            <div class="form-grupo">
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" required>
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+    </section>
+</body>
+</html>

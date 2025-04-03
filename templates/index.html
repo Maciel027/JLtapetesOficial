@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JL Tapetes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=2">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>JL Tapetes</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#contato">Contato</a></li>
+                <li><a href="{{ url_for('login') }}">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="banner">
+        <h2>Tapetes Exclusivos para Você</h2>
+        <p>Encontre o tapete perfeito para o seu ambiente.</p>
+        <button id="ver-produtos" onclick="document.getElementById('produtos').scrollIntoView()">Ver Produtos</button>
+    </div>
+
+    <section id="produtos" class="produtos">
+        <h2>Nossos Produtos</h2>
+        <div class="produtos-lista">
+            {% for p in produtos %}
+            <div class="produto-card">
+                <img src="{{ url_for('static', filename=p[3].split('static/')[1]) }}" alt="{{ p[1] }}">
+                <h3>{{ p[1] }}</h3>
+                <p>R$ {{ p[2] }}</p>
+                <button class="comprar-produto">Comprar</button>
+            </div>
+            {% endfor %}
+        </div>
+
+    <footer>
+        <p>JL Tapetes - Todos os direitos reservados</p>
+    </footer>
+</body>
+</html>
