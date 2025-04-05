@@ -3,14 +3,21 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import sqlite3, os
 import os
-
+import psycopg2
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
+
 def conectar():
-    return sqlite3.connect('loja.db')
+    return psycopg2.connect(
+        host=os.environ.get("postgres.railway.internal"),
+        database=os.environ.get("railway"),
+        user=os.environ.get("postgres"),
+        password=os.environ.get("SUbZabWChguhKvjjwyIubbRAADGhSSHM"),
+        port=os.environ.get("5432")
+    )
 
 @app.route('/')
 def index():
@@ -105,6 +112,33 @@ def logout():
     session.pop('admin', None)
     return redirect(url_for('index'))
 
+
+def criar_tabelas():
+    con = conectar()
+    cur = con.cursor()
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS produtos (
+        id SERIAL PRIMARY KEY,
+        nome TEXT NOT NULL,
+        preco REAL NOT NULL,
+        imagem TEXT NOT NULL
+    )
+    """)
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS admin (
+        id SERIAL PRIMARY KEY,
+        usuario TEXT NOT NULL,
+        senha TEXT NOT NULL
+    )
+    """)
+    cur.execute("SELECT * FROM admin WHERE usuario = %s", ("go",))
+    if not cur.fetchone():
+        cur.execute("INSERT INTO admin (usuario, senha) VALUES (%s, %s)", ("go", "adm123"))
+    con.commit()
+    con.close()
+
+
 if __name__ == '__main__':
+    criar_tabelas
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
