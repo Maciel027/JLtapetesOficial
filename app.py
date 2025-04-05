@@ -139,6 +139,6 @@ def criar_tabelas():
 
 
 if __name__ == '__main__':
-    criar_tabelas
+    criar_tabelas()
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
