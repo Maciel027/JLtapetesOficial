@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import sqlite3, os
 import os
-import psycopg2
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
