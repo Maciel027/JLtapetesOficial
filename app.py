@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import sqlite3, os
 import os
+import psycopg2
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
@@ -11,14 +12,14 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 def conectar():
     return psycopg2.connect(
-        host=os.environ.get("postgres.railway.internal"),
-        database=os.environ.get("railway"),
-        user=os.environ.get("postgres"),
-        password=os.environ.get("SUbZabWChguhKvjjwyIubbRAADGhSSHM"),
-        port=os.environ.get("5432")
-    )
+    host=os.environ.get("postgres.railway.internal"),
+    database=os.environ.get("railway"),
+    user=os.environ.get("postgres"),
+    password=os.environ.get("SUbZabWChguhKvjjwyIubbRAADGhSSHM"),
+    port=os.environ.get("5432")
+)
 
-
+    
 @app.route('/')
 def index():
     con = conectar()
