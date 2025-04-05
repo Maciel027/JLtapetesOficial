@@ -11,11 +11,11 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 def conectar():
     return psycopg2.connect(
-        host=os.environ.get("postgres.railway.internal"),
-        database=os.environ.get("railway"),
-        user=os.environ.get("postgres"),
-        password=os.environ.get("SUbZabWChguhKvjjwyIubbRAADGhSSHM"),
-        port=os.environ.get("5432")
+        host=os.environ.get("PGHOST"),
+        database=os.environ.get("PGDATABASE"),
+        user=os.environ.get("PGUSER"),
+        password=os.environ.get("PGPASSWORD"),
+        port=os.environ.get("PGPORT")
     )
 
 
