@@ -44,6 +44,42 @@ def painel():
         return redirect(url_for('login'))
     return render_template('painel.html')
 
+@app.route('/editar')
+def editar_loja():
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+    con = conectar()
+    cur = con.cursor()
+    cur.execute("SELECT * FROM produtos")
+    produtos = cur.fetchall()
+    con.close()
+    return render_template('editar.html', produtos=produtos)
+
+@app.route('/editar-produto/<int:id>', methods=['POST'])
+def editar_produto(id):
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+    nome = request.form['nome']
+    preco = request.form['preco']
+    con = conectar()
+    cur = con.cursor()
+    cur.execute("UPDATE produtos SET nome=?, preco=? WHERE id=?", (nome, preco, id))
+    con.commit()
+    con.close()
+    return redirect(url_for('editar_loja'))
+
+@app.route('/excluir-produto/<int:id>')
+def excluir_produto(id):
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+    con = conectar()
+    cur = con.cursor()
+    cur.execute("DELETE FROM produtos WHERE id=?", (id,))
+    con.commit()
+    con.close()
+    return redirect(url_for('editar_loja'))
+
+
 @app.route('/cadastrar', methods=['POST'])
 def cadastrar():
     if not session.get('admin'):

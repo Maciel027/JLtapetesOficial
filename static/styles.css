@@ -294,3 +294,83 @@ footer {
     color: #003366;
     font-size: 14px;
 }
+
+
+/* ===== Painel de Edição ============================================================================================= */
+
+.produtos table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+.produtos table th,
+.produtos table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.produtos table th {
+    background-color: #003366;
+    color: white;
+}
+
+.produtos table img {
+    max-width: 100px;
+    border-radius: 5px;
+}
+
+.produtos table input[type="text"],
+.produtos table input[type="number"] {
+    width: 90%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.produtos table button {
+    background-color: #87CEFA;
+    color: #003366;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.produtos table button:hover {
+    background-color: #00BFFF;
+}
+
+.produtos table a {
+    background-color: #FF6961;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 8px;
+    display: inline-block;
+}
+
+.produtos table a:hover {
+    background-color: #FF4136;
+}
+
+.btn-editar {
+    display: inline-block;
+    background-color: #FF69B4;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.btn-editar:hover {
+    background-color: #FF1493;
+}
