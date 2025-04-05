@@ -105,40 +105,6 @@ def logout():
     session.pop('admin', None)
     return redirect(url_for('index'))
 
-
-def migrar_sqlite_para_postgres():
-    import sqlite3
-    import psycopg2
-
-    # Conectar ao SQLite local
-    sqlite_conn = sqlite3.connect('loja.db')
-    sqlite_cur = sqlite_conn.cursor()
-
-    # Ler produtos
-    sqlite_cur.execute("SELECT nome, preco, imagem FROM produtos")
-    produtos = sqlite_cur.fetchall()
-    sqlite_conn.close()
-
-    # Conectar ao PostgreSQL do Railway
-    pg_conn = conectar()
-    pg_cur = pg_conn.cursor()
-
-    inseridos = 0
-    for p in produtos:
-        nome, preco, imagem = p
-        # Evita duplicados (você pode mudar isso)
-        pg_cur.execute("SELECT * FROM produtos WHERE nome = %s AND preco = %s AND imagem = %s", (nome, preco, imagem))
-        if not pg_cur.fetchone():
-            pg_cur.execute("INSERT INTO produtos (nome, preco, imagem) VALUES (%s, %s, %s)", (nome, preco, imagem))
-            inseridos += 1
-
-    pg_conn.commit()
-    pg_conn.close()
-
-    print(f"{inseridos} produtos migrados com sucesso do SQLite para PostgreSQL.")
-
-
 if __name__ == '__main__':
-    migrar_sqlite_para_postgres()  # ← Executa a migração!
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
