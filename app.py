@@ -1,9 +1,7 @@
-
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
-import sqlite3, os
-import os
 import psycopg2
+import os
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
@@ -12,14 +10,14 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 def conectar():
     return psycopg2.connect(
-    host=os.environ.get("postgres.railway.internal"),
-    database=os.environ.get("railway"),
-    user=os.environ.get("postgres"),
-    password=os.environ.get("SUbZabWChguhKvjjwyIubbRAADGhSSHM"),
-    port=os.environ.get("5432")
-)
+        host=os.environ.get("PGHOST"),
+        database=os.environ.get("PGDATABASE"),
+        user=os.environ.get("PGUSER"),
+        password=os.environ.get("PGPASSWORD"),
+        port=os.environ.get("PGPORT")
+    )
 
-    
+
 @app.route('/')
 def index():
     con = conectar()
@@ -29,6 +27,7 @@ def index():
     con.close()
     return render_template('index.html', produtos=produtos)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -36,7 +35,7 @@ def login():
         senha = request.form['senha']
         con = conectar()
         cur = con.cursor()
-        cur.execute("SELECT * FROM admin WHERE usuario=? AND senha=?", (usuario, senha))
+        cur.execute("SELECT * FROM admin WHERE usuario=%s AND senha=%s", (usuario, senha))
         admin = cur.fetchone()
         con.close()
         if admin:
@@ -46,11 +45,13 @@ def login():
             return "Login inválido"
     return render_template('login.html')
 
+
 @app.route('/painel')
 def painel():
     if not session.get('admin'):
         return redirect(url_for('login'))
     return render_template('painel.html')
+
 
 @app.route('/editar')
 def editar_loja():
@@ -63,6 +64,7 @@ def editar_loja():
     con.close()
     return render_template('editar.html', produtos=produtos)
 
+
 @app.route('/editar-produto/<int:id>', methods=['POST'])
 def editar_produto(id):
     if not session.get('admin'):
@@ -71,10 +73,11 @@ def editar_produto(id):
     preco = request.form['preco']
     con = conectar()
     cur = con.cursor()
-    cur.execute("UPDATE produtos SET nome=?, preco=? WHERE id=?", (nome, preco, id))
+    cur.execute("UPDATE produtos SET nome=%s, preco=%s WHERE id=%s", (nome, preco, id))
     con.commit()
     con.close()
     return redirect(url_for('editar_loja'))
+
 
 @app.route('/excluir-produto/<int:id>')
 def excluir_produto(id):
@@ -82,7 +85,7 @@ def excluir_produto(id):
         return redirect(url_for('login'))
     con = conectar()
     cur = con.cursor()
-    cur.execute("DELETE FROM produtos WHERE id=?", (id,))
+    cur.execute("DELETE FROM produtos WHERE id=%s", (id,))
     con.commit()
     con.close()
     return redirect(url_for('editar_loja'))
@@ -102,16 +105,18 @@ def cadastrar():
         imagem.save(caminho)
         con = conectar()
         cur = con.cursor()
-        cur.execute("INSERT INTO produtos (nome, preco, imagem) VALUES (?, ?, ?)",
+        cur.execute("INSERT INTO produtos (nome, preco, imagem) VALUES (%s, %s, %s)",
                     (nome, preco, caminho))
         con.commit()
         con.close()
     return redirect(url_for('painel'))
 
+
 @app.route('/logout')
 def logout():
     session.pop('admin', None)
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
