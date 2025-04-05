@@ -1,7 +1,8 @@
+import os
+import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
-import psycopg2
-import os
+
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
