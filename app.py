@@ -6,7 +6,10 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
+# Garante que a pasta de upload existe no ambiente de produção
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
 
 
 def conectar():
@@ -17,13 +20,6 @@ def conectar():
         password=os.environ.get("PGPASSWORD"),
         port=os.environ.get("PGPORT")
     )
-
-## Print retorno do conetar teste 
-print("PGHOST:", os.environ.get("PGHOST"))
-print("PGUSER:", os.environ.get("PGUSER"))
-print("PGDATABASE:", os.environ.get("PGDATABASE"))
-print("PGPASSWORD:", os.environ.get("PGPASSWORD"))
-print("PGPORT:", os.environ.get("PGPORT"))
 
 
 @app.route('/')
