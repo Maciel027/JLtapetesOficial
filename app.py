@@ -2,7 +2,15 @@ import os
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
+import cloudinary
+import cloudinary.uploader
 
+# Configuração do Cloudinary com variáveis de ambiente
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUD_NAME"),
+    api_key=os.environ.get("API_KEY"),
+    api_secret=os.environ.get("API_SECRET")
+)
 
 app = Flask(__name__)
 app.secret_key = 'segredo'
@@ -104,13 +112,12 @@ def cadastrar():
     preco = request.form['preco']
     imagem = request.files['imagem']
     if imagem:
-        nome_arquivo = secure_filename(imagem.filename)
-        caminho = os.path.join(app.config['UPLOAD_FOLDER'], nome_arquivo)
-        imagem.save(caminho)
+        upload_result = cloudinary.uploader.upload(imagem)
+        imagem_url = upload_result['secure_url']
         con = conectar()
         cur = con.cursor()
         cur.execute("INSERT INTO produtos (nome, preco, imagem) VALUES (%s, %s, %s)",
-                    (nome, preco, caminho))
+                    (nome, preco, imagem_url))
         con.commit()
         con.close()
     return redirect(url_for('painel'))
