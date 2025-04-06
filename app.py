@@ -18,6 +18,13 @@ def conectar():
         port=os.environ.get("PGPORT")
     )
 
+## Print retorno do conetar teste 
+print("PGHOST:", os.environ.get("PGHOST"))
+print("PGUSER:", os.environ.get("PGUSER"))
+print("PGDATABASE:", os.environ.get("PGDATABASE"))
+print("PGPASSWORD:", os.environ.get("PGPASSWORD"))
+print("PGPORT:", os.environ.get("PGPORT"))
+
 
 @app.route('/')
 def index():
