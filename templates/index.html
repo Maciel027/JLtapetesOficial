@@ -38,7 +38,9 @@
                 <img src="{{ url_for('static', filename=p[3].split('static/')[1]) }}" alt="{{ p[1] }}">
                 <h3>{{ p[1] }}</h3>
                 <p>R$ {{ p[2] }}</p>
-                <button class="comprar-produto">Comprar</button>
+                <a href="https://wa.me/5515998366823?text=Olá!%20Tenho%20interesse%20no%20Tapete%20Vim pelo site" target="_blank">
+                    <button class="comprar-produto">Comprar</button>
+                </a>                
             </div>
             {% endfor %}
         </div>
