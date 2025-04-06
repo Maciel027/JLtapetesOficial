@@ -2,44 +2,50 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Produtos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JL Tapetes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=2">
 </head>
 <body>
     <header>
         <div class="logo">
-            <h1>Editar Produtos</h1>
+            <h1>JL Tapetes</h1>
         </div>
         <nav>
             <ul>
-                <li><a href="{{ url_for('painel') }}">Voltar ao Painel</a></li>
-                <li><a href="{{ url_for('logout') }}">Sair</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#contato">Contato</a></li>
+                <li><a href="{{ url_for('login') }}">Admin</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="produtos">
-        <table>
-            <tr>
-                <th>Imagem</th>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Ações</th>
-            </tr>
+    <div class="banner">
+        <h2>Tapetes Exclusivos para Você</h2>
+        <p>Encontre o tapete perfeito para o seu ambiente.</p>
+        <button id="ver-produtos" onclick="document.getElementById('produtos').scrollIntoView()">Ver Produtos</button>
+    </div>
+
+    <section id="produtos" class="produtos">
+        <h2>Nossos Produtos</h2>
+        <div class="produtos-lista">
             {% for p in produtos %}
-            <tr>
-                <form action="{{ url_for('editar_produto', id=p[0]) }}" method="POST">
-                    <td><img src="{{ url_for('static', filename=p[3].split('static/')[1]) }}" width="100"></td>
-                    <td><input type="text" name="nome" value="{{ p[1] }}"></td>
-                    <td><input type="number" step="0.01" name="preco" value="{{ p[2] }}"></td>
-                    <td>
-                        <button type="submit">Salvar</button>
-                        <a href="{{ url_for('excluir_produto', id=p[0]) }}" onclick="return confirm('Deseja excluir?')">Excluir</a>
-                    </td>
-                </form>
-            </tr>
+            <div class="produto-card">
+                <img src="{{ p[3] }}" alt="{{ p[1] }}">
+                <h3>{{ p[1] }}</h3>
+                <p>R$ {{ p[2] }}</p>
+                <a href="https://wa.me/5515998366823?text=Olá!%20Tenho%20interesse%20no%20{{ p[1] }}%20-%20Vim%20pelo%20site" target="_blank">
+                    <button class="comprar-produto">Comprar</button>
+                </a>                
+            </div>
             {% endfor %}
-        </table>
-    </section>
+        </div>
+
+    <footer>
+        <p>JL Tapetes - Todos os direitos reservados - Desenvolvido pela equipe SessaTec</p>
+    </footer>
 </body>
 </html>
