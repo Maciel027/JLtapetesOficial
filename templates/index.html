@@ -17,10 +17,18 @@
         <nav>
             <ul>
                 <li><a href="#produtos">Produtos</a></li>
-                <li><a href="#contato">Contato</a></li>
+                <li><a href="{{ url_for('contato') }}">Contato</a></li>
                 <li><a href="{{ url_for('login') }}">Admin</a></li>
+                <li>
+                    <a href="https://instagram.com/jltapetes" target="_blank" title="Instagram">
+                        <svg width="24" height="24" fill="#003366" viewBox="0 0 24 24" style="vertical-align: middle;">
+                            <path d="M7.75 2C4.68 2 2 4.68 2 7.75v8.5C2 19.32 4.68 22 7.75 22h8.5C19.32 22 22 19.32 22 16.25v-8.5C22 4.68 19.32 2 16.25 2h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm6.25-.75a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+                        </svg>
+                    </a>
+                </li>
             </ul>
         </nav>
+        
     </header>
 
     <div class="banner">

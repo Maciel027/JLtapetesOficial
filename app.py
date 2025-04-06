@@ -18,8 +18,6 @@ app.secret_key = 'segredo'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-
-
 def conectar():
     return psycopg2.connect(
         host=os.environ.get("PGHOST"),
@@ -121,6 +119,10 @@ def cadastrar():
         con.commit()
         con.close()
     return redirect(url_for('painel'))
+
+@app.route('/contato')
+def contato():
+    return render_template('contato.html')
 
 
 @app.route('/logout')
