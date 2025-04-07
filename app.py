@@ -153,6 +153,23 @@ def painel():
         return redirect(url_for('login'))
     return render_template('painel.html')
 
+@app.route('/apagar-acessos')
+def apagar_tabela_acessos():
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+
+    con = conectar()
+    cur = con.cursor()
+    try:
+        cur.execute("DROP TABLE IF EXISTS acessos")
+        con.commit()
+        return "✅ Tabela 'acessos' apagada com sucesso."
+    except Exception as e:
+        return f"❌ Erro ao apagar: {e}"
+    finally:
+        con.close()
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
