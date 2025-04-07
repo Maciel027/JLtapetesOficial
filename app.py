@@ -75,6 +75,21 @@ def editar_loja():
     con.close()
     return render_template('editar.html', produtos=produtos)
 
+#bacond
+@app.route('/ajustar-tabela-acessos')
+def ajustar_tabela():
+    con = conectar()
+    cur = con.cursor()
+    try:
+        cur.execute("ALTER TABLE acessos ADD COLUMN ip VARCHAR(50);")
+        con.commit()
+        return "Coluna 'ip' adicionada com sucesso!"
+    except Exception as e:
+        return f"Erro: {e}"
+    finally:
+        con.close()
+
+
 
 @app.route('/editar-produto/<int:id>', methods=['POST'])
 def editar_produto(id):
