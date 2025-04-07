@@ -57,11 +57,11 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/painel')
-def painel():
-    if not session.get('admin'):
-        return redirect(url_for('login'))
-    return render_template('painel.html')
+#@app.route('/painel')
+#def painel():
+#    if not session.get('admin'):
+ #       return redirect(url_for('login'))
+#    return render_template('painel.html')
 
 
 @app.route('/editar')
