@@ -57,11 +57,11 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/painel')
-def painel():
-    if not session.get('admin'):
-        return redirect(url_for('login'))
-    return render_template('painel.html')
+#@app.route('/painel')
+#def painel():
+#    if not session.get('admin'):
+ #       return redirect(url_for('login'))
+#    return render_template('painel.html')
 
 
 @app.route('/editar')
@@ -149,6 +149,45 @@ def registrar_clique(id):
     con.commit()
     con.close()
     return redirect("https://wa.me/5515998366823")
+
+@app.route('/painel')
+def painel():
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+
+    con = conectar()
+    cur = con.cursor()
+
+    # Acessos
+    cur.execute("SELECT COUNT(*) FROM acessos WHERE DATE(data) = CURRENT_DATE")
+    acessos_dia = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM acessos WHERE data >= NOW() - INTERVAL '7 days'")
+    acessos_semana = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM acessos WHERE data >= NOW() - INTERVAL '30 days'")
+    acessos_mes = cur.fetchone()[0]
+
+    # Produto mais clicado
+    cur.execute("""
+        SELECT produtos.nome, COUNT(cliques.id) AS total
+        FROM cliques
+        JOIN produtos ON cliques.produto_id = produtos.id
+        GROUP BY produtos.nome
+        ORDER BY total DESC
+        LIMIT 1
+    """)
+    produto_mais_clicado = cur.fetchone()
+
+    con.close()
+
+    return render_template(
+        'painel.html',
+        acessos_dia=acessos_dia,
+        acessos_semana=acessos_semana,
+        acessos_mes=acessos_mes,
+        produto_mais_clicado=produto_mais_clicado
+    )
 
 
 if __name__ == '__main__':
