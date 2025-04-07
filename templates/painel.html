@@ -38,5 +38,25 @@
             <button type="submit">Cadastrar Produto</button>
         </form>
     </section>
+
+    <section class="relatorios">
+        <h2>Relatórios</h2>
+        <ul>
+            <li>👁️ Acessos hoje: <strong>{{ acessos_dia }}</strong></li>
+            <li>📅 Semana: <strong>{{ acessos_semana }}</strong></li>
+            <li>🗓️ Mês: <strong>{{ acessos_mes }}</strong></li>
+            <li>🔥 Produto mais clicado:
+                <strong>
+                    {% if produto_mais_clicado %}
+                        {{ produto_mais_clicado[0] }} ({{ produto_mais_clicado[1] }} cliques)
+                    {% else %}
+                        Nenhum clique ainda
+                    {% endif %}
+                </strong>
+            </li>
+        </ul>
+    </section>
+    
+
 </body>
 </html>

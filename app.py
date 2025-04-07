@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import cloudinary
 import cloudinary.uploader
+from datetime import datetime
 
 # Configuração do Cloudinary com variáveis de ambiente
 cloudinary.config(
@@ -129,6 +130,64 @@ def contato():
 def logout():
     session.pop('admin', None)
     return redirect(url_for('index'))
+
+@app.before_request
+def registrar_acesso():
+    if request.endpoint not in ['static', 'registrar_clique']:
+        ip = request.remote_addr
+        con = conectar()
+        cur = con.cursor()
+        cur.execute("INSERT INTO acessos (ip) VALUES (%s)", (ip,))
+        con.commit()
+        con.close()
+
+@app.route('/registrar-clique/<int:id>')
+def registrar_clique(id):
+    con = conectar()
+    cur = con.cursor()
+    cur.execute("INSERT INTO cliques (produto_id) VALUES (%s)", (id,))
+    con.commit()
+    con.close()
+    return redirect("https://wa.me/5515998366823")
+
+@app.route('/painel')
+def painel():
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+
+    con = conectar()
+    cur = con.cursor()
+
+    # Acessos
+    cur.execute("SELECT COUNT(*) FROM acessos WHERE DATE(data) = CURRENT_DATE")
+    acessos_dia = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM acessos WHERE data >= NOW() - INTERVAL '7 days'")
+    acessos_semana = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM acessos WHERE data >= NOW() - INTERVAL '30 days'")
+    acessos_mes = cur.fetchone()[0]
+
+    # Produto mais clicado
+    cur.execute("""
+        SELECT produtos.nome, COUNT(cliques.id) AS total
+        FROM cliques
+        JOIN produtos ON cliques.produto_id = produtos.id
+        GROUP BY produtos.nome
+        ORDER BY total DESC
+        LIMIT 1
+    """)
+    produto_mais_clicado = cur.fetchone()
+
+    con.close()
+
+    return render_template(
+        'painel.html',
+        acessos_dia=acessos_dia,
+        acessos_semana=acessos_semana,
+        acessos_mes=acessos_mes,
+        produto_mais_clicado=produto_mais_clicado
+    )
 
 
 if __name__ == '__main__':
