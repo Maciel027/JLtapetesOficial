@@ -153,6 +153,22 @@ def painel():
         return redirect(url_for('login'))
     return render_template('painel.html')
 
+def apagar_tabela_acessos_uma_vez():
+    try:
+        con = conectar()
+        cur = con.cursor()
+        cur.execute("DROP TABLE IF EXISTS cliques")
+        con.commit()
+        print("✅ Tabela 'acessos' foi apagada automaticamente no startup.")
+    except Exception as e:
+        print(f"❌ Erro ao apagar a tabela acessos: {e}")
+    finally:
+        con.close()
+
+# CHAMADA DIRETA (executa assim que o servidor inicia)
+#apagar_tabela_acessos_uma_vez()
+
 if __name__ == '__main__':
+    apagar_tabela_acessos_uma_vez()
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
