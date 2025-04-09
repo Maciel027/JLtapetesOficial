@@ -159,15 +159,28 @@ def logout():
 def registrar_acesso():
     if request.endpoint not in ['static', 'registrar_clique']:
         ip = request.remote_addr
+        hoje = datetime.now().date()
+
         try:
             con = conectar()
             cur = con.cursor()
-            cur.execute("INSERT INTO acessos (ip) VALUES (%s)", (ip,))
-            con.commit()
+
+            # Verifica se já existe um acesso hoje com esse IP
+            cur.execute("""
+                SELECT 1 FROM acessos 
+                WHERE ip = %s AND DATE(data) = %s
+            """, (ip, hoje))
+            ja_acessou = cur.fetchone()
+
+            if not ja_acessou:
+                cur.execute("INSERT INTO acessos (ip) VALUES (%s)", (ip,))
+                con.commit()
+
         except Exception as e:
             print(f"[registrar_acesso] Erro: {e}")
         finally:
             con.close()
+
 
 
 @app.route('/registrar-clique/<int:id>')
