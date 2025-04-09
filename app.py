@@ -13,6 +13,31 @@ cloudinary.config(
     api_secret=os.environ.get("API_SECRET")
 )
 
+def criar_tabelas():
+    con = conectar()
+    cur = con.cursor()
+
+    # Tabela de acessos
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS acessos (
+            id SERIAL PRIMARY KEY,
+            ip VARCHAR(50),
+            data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    """)
+
+    # Tabela de cliques
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS cliques (
+            id SERIAL PRIMARY KEY,
+            produto_id INTEGER REFERENCES produtos(id),
+            data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    """)
+
+    con.commit()
+    con.close()
+
 app = Flask(__name__)
 app.secret_key = 'segredo'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -26,6 +51,7 @@ def conectar():
         password=os.environ.get("PGPASSWORD"),
         port=os.environ.get("PGPORT")
     )
+
 
 @app.route('/')
 def index():
@@ -153,22 +179,7 @@ def painel():
         return redirect(url_for('login'))
     return render_template('painel.html')
 
-def apagar_tabela_acessos_uma_vez():
-    try:
-        con = conectar()
-        cur = con.cursor()
-        cur.execute("DROP TABLE IF EXISTS cliques")
-        con.commit()
-        print("✅ Tabela 'acessos' foi apagada automaticamente no startup.")
-    except Exception as e:
-        print(f"❌ Erro ao apagar a tabela acessos: {e}")
-    finally:
-        con.close()
-
-# CHAMADA DIRETA (executa assim que o servidor inicia)
-#apagar_tabela_acessos_uma_vez()
 
 if __name__ == '__main__':
-    apagar_tabela_acessos_uma_vez()
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
