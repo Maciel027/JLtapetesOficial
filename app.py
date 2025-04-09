@@ -186,12 +186,14 @@ def registrar_acesso():
 @app.route('/registrar-clique/<int:id>')
 def registrar_clique(id):
     try:
+        print(f"[CLIQUE] Produto ID: {id}")
         con = conectar()
         cur = con.cursor()
         cur.execute("INSERT INTO cliques (produto_id) VALUES (%s)", (id,))
         con.commit()
+        print("[CLIQUE] Registrado com sucesso.")
     except Exception as e:
-        print(f"[registrar_clique] Erro: {e}")
+        print(f"[CLIQUE] Erro ao registrar clique: {e}")
     finally:
         con.close()
     return redirect("https://wa.me/5515998366823")
