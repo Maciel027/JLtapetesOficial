@@ -21,6 +21,14 @@
         <!-- AdSense: verificação e anúncios -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8342537336563394"
         crossorigin="anonymous"></script>
+        <script>
+            window.onload = function() {
+                var ads = document.querySelectorAll('.adsbygoogle');
+                ads.forEach(function(ad) {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                });
+            };
+        </script>
     </head>
 <body>
     <header>
